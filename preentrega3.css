@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif
+}
+
+.contenedor-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: rgb(29, 28, 28);
+    color: white;
+    font-size: 2rem;
+}
+
+#formNuevoUsuario {
+    margin: 80px auto;
+    background-color: rgba(0, 0, 0, .5);
+    height: 300px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 1rem;
+    
+}
+#formNuevoUsuario h3 {
+    padding: 5px 0;
+    text-align: center;
+}
+#formNuevoUsuario input {
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-style: none;
+    padding: 0 10px;
+    width: 250px;
+    height: 25px;
+
+}
+
+#formNuevoUsuario input:focus{
+    outline: none;
+}
+
+#formNuevoUsuario button {
+    
+    border-radius: 10px;   
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;    
+    transition-duration: 0.4s;
+    background-color: white;
+    color: black;
+    
+}
+
+  
+#formNuevoUsuario button:hover {
+    background-color: #555555;
+    color: white;
+}
+#formNuevoUsuario button:active {
+    background-color: chartreuse;
+    color: black;
+    box-shadow: 1px 1px 2px chartreuse, 0 0 25px chartreuse, 0 0 5px chartreuse;
+}
+
+#sinUsuario {
+    display: flex;
+    align-items: center;
+}
+#sinUsuario h5{
+    padding: 5px 10px;
+    text-align: center;
+}
+
+#sinUsuario button{
+    border-radius: 10px;   
+    border: none;    
+    padding: 5px 15px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;    
+    transition-duration: 0.4s;
+    background-color: rgb(134, 22, 22);
+    color: white;
+} 
+
+#errorIngreso {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+#sectionTienda {
+    display: flex;
+    flex-direction: row;
+}
+#contenedorCards {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 20px 20px !important;
+}
+
+
+
+#contenedorCarrito{
+    background-color: black;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    color: white;
+    height: 300px;
+    text-align: center;
+}
+
+#ul {
+    margin-left: 0;
+    padding: 0;
+    text-align: center;
+    list-style-type: none;
+    text-decoration: none;
+    
+}
