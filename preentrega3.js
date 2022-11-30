@@ -283,7 +283,7 @@ const scontenedorCards = document.getElementById('contenedorCards');
 
 function tienda () {
     sectionTienda.style.display = "";
-    sectionCarrito.style.display = "";
+    // sectionCarrito.style.display = "";
     
 
     productos.forEach(producto => {
@@ -306,6 +306,7 @@ const elCarrito = document.getElementById('carritoDiv');
 // const botonCarrito = document.getElementsByClassName("carr");
 // console.log(botonCarrito)
 
+// console.log(carrito)
 botonCarrito.forEach(pum =>{
     pum.onclick = () => {
         const productoElegido = productos.find(x => x.id === parseInt(pum.id));
@@ -318,13 +319,14 @@ botonCarrito.forEach(pum =>{
         } else {
             carrito[indexCarrito].cantidad += 1;
         }
-        console.log(carrito)
+        // console.log(carrito)
         // elCarrito.innerText += ProductoCarrito.nombre// console.log(carrito)
         // elCarrito.innerHTML = document.createElement('h5')
-        // const ul = document.getElementById("ul")
-        const listItem = document.createElement("li")
+        // const ul = document.getElementById("ul")        
         // const tituloCarrito = document.getElementById('carritoTitulo');
+
         
+        // const listItem = document.createElement("li")
         const PrecioTotal = carrito.map(prod => prod.precio * prod.cantidad);
         let final = 0;
         PrecioTotal.forEach(x=>{
@@ -334,7 +336,18 @@ botonCarrito.forEach(pum =>{
         listItem.innerText = `${productoElegido.nombre} - Precio: $ ${productoElegido.precio}`
         ul.append(listItem)
 
-        
+        // console.log(final);    
+        // console.log(indexCarrito);
+        // console.log(carrito);
+
+        if (carrito === '') {
+            sectionCarrito.style.display = "none";
+        }   else {
+            sectionCarrito.style.display = "";
+        }
+
+
     }
-});
+}); 
 };
+

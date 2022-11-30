@@ -4,18 +4,25 @@
     font-family: sans-serif
 }
 
+
+
 .contenedor-navbar {
+    flex-direction: column;
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100px;
-    background-color: rgb(29, 28, 28);
+    top: 0;
+    position: fixed;
+    background-color: black;
     color: white;
     font-size: 2rem;
+    width: 100%;
 }
 
 #formNuevoUsuario {
-    margin: 80px auto;
+    margin: 200px auto auto ;
     background-color: rgba(0, 0, 0, .5);
     height: 300px;
     width: 500px;
@@ -112,18 +119,22 @@
     width: 100%;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    margin: 20px 20px !important;
+    margin: 258px 20px 20px 20px !important;
 }
 
 
 
-#contenedorCarrito{
+#contenedorCarrito {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: black;
     position: fixed;
-    bottom: 0px;
+    top: 98px;
     width: 100%;
     color: white;
-    height: 200px;
+    height: 100px;
     text-align: center;
 }
 
