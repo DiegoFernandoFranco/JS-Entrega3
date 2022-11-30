@@ -78,12 +78,15 @@ if (listaClientesExiste) {
     clientes = listaClientesExiste;  
     console.log('hay clientes');
 }   else {
+        ingresoError.innerText = '¡¡¡Sos el primer Visitante, vas a tener que registrarte!!!';            
+        setTimeout(function(){ingresoError.innerText = ''; }, 2000);
         console.log('No hay clientes')
         clientes = [];
 };
 
 
 // console.log(input1);
+
 
 
 // const contadorUsuarios = localStorage.setItem('contador', 0)
@@ -94,9 +97,13 @@ const objUsuarios = {};
 ingresoBoton.onclick = () => {
     // debugger
     if (ingresoUsuario.value == '') {        
-            ingresoError.innerText = '¡¡¡No Ingresaste un Usuario Valido!!!';        
+            ingresoError.innerText = '¡¡¡No Ingresaste un Usuario Valido!!!';            
+            setTimeout(function(){ingresoError.innerText = ''; }, 2000);
+            borraInputs();
     }   else if (ingresoUsuario.value !== '' && ingresoPassword.value == ''){
             ingresoError.innerText = '¡¡¡¡No Ingresaste un Password!!!!';
+            borraInputs();
+            setTimeout(function(){ingresoError.innerText = ''; }, 2000);
             console.log('Password esta vacio');          
             
     }   else {
@@ -107,39 +114,46 @@ ingresoBoton.onclick = () => {
 
 function existeUsuario () {
     let z = clientes.find( (o) => o.usuario === ingresoUsuario.value);
-
-    // ingresoError.style.display ='none'
-    if (z !== undefined) {
-        menuIngreso.style.display = "none";
-        saludo.innerText = `Hola ${ingresoUsuario.value}`
-        // ingresoError.innerText = 'Bienvenido, Puede ingresar a la Tienda';
-        // setTimeout(function(){ingresoError.style.display = "none"; }, 3000);
-        console.log('Existe ese Usuario')
-        tienda();
+    let zpass = clientes.find( (o) =>o.password === ingresoPassword.value);
+    
+    if (z !== undefined ) {
+        if (zpass !==undefined) {
+            console.log('pass correcto')
+            menuIngreso.style.display = "none";
+            saludo.innerText = `Hola ${ingresoUsuario.value}`                 
+            console.log('Existe ese Usuario, te dejo entrar en la Tienda!!!')
+            tienda();
+        }   else {
+                console.log('bad pass')
+                ingresoError.innerText = `Contraseña Incorrecta, sos vos ${z.usuario}? \nO te estan hackeando la cuenta?`;
+                setTimeout(function(){ingresoError.innerText = ''; }, 2000); 
+                borraInputs();      
+        }
     }   else {
-        ingresoError.innerText = '¡¡¡¡¡No Existe ese Usuario!!!!!'
-        setTimeout(function(){ingresoError.style.display = "none"; }, 3000);
+        ingresoError.innerText = '¡¡¡¡¡No Existe ese Usuario!!!!!';
+        setTimeout(function(){ingresoError.innerText = ''; }, 2000); 
+        borraInputs();        
         console.log('No Existe ese Usuario')
     }
 };
 
-
-
-registroBoton.onclick = () => {
-    // registroTodo.style.display = 'none';
-    ingresoError.style.display ='none';
+function borraInputs() {
     ingresoUsuario.value = '';
-    ingresoPassword.value = ''
+    ingresoPassword.value = '';
+
+};
+
+registroBoton.onclick = () => {    
+    ingresoError.style.display ='none';
+    borraInputs();
     registroTodo.style.visibility = "hidden";
     tituloIngreso.innerText = 'REGISTRAR USUARIO NUEVO'
     ingresoBoton.innerText = 'Registrar'
     ingresoBoton.onclick = () => registro()//
 };
 
-function registro() {    
-    
-    registroUsuario()
-    
+function registro() {        
+    registroUsuario()    
 };
 
 class NuevoUsuario {
@@ -155,7 +169,8 @@ function registroUsuario() {
     if (ingresoUsuario.value == '' || ingresoPassword.value == '' ){
         ingresoError.style.display ='';
         ingresoError.innerText = 'Registro Incompleto';
-        setTimeout(function(){ingresoError.style.display = "none"; }, 3000);
+        borraInputs();
+        setTimeout(function(){ingresoError.innerText = ''; }, 2000);
         console.log('Registro Incompleto');
         
     }   else{
@@ -164,12 +179,10 @@ function registroUsuario() {
     
 };
 
-
 function aJson(variable) {
     let aJson = JSON.stringify(variable);   
     // console.log('a')
     return aJson;
-
 };
 
 function deJson(variable) {
@@ -192,8 +205,9 @@ function comprobarClienteDuplicado () {
         console.log('Ya hay un Usuario con ese nombre');
         ingresoError.style.display = '';
         ingresoError.innerText = 'Usuario ya Existente, Modificar!!!';
+        borraInputs();
         // debugger
-        setTimeout(function(){ingresoError.style.display = "none"; }, 3000);
+        setTimeout(function(){ingresoError.innerText = ''; }, 2000);
     };
 
     // xxxx.forEach(i => {
@@ -275,7 +289,7 @@ function tienda () {
     productos.forEach(producto => {
         contenedorCards.innerHTML += `    
         <div id="div${producto.id}" class="card cardsProductos" > 
-        <img src=${producto.imagen} height="350px">
+        <img src=${producto.imagen} height="300px">
         <div class ="card-body">
         <h4 class="card-title">${producto.nombre}</h4>
         <p class="card-text">Precio: $${producto.precio}</p>
@@ -324,10 +338,3 @@ botonCarrito.forEach(pum =>{
     }
 });
 };
-
-
-
-
-
-
-// botonCarrito.onclick = () => console.log('dfd')
