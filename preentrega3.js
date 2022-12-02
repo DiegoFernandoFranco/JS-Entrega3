@@ -332,14 +332,7 @@ function tienda () {
         } else {
             carrito[indexCarrito].cantidad += 1;
         }
-        // console.log(carrito)
-        // elCarrito.innerText += ProductoCarrito.nombre// console.log(carrito)
-        // elCarrito.innerHTML = document.createElement('h5')
-        // const ul = document.getElementById("ul")        
-        // const tituloCarrito = document.getElementById('carritoTitulo');
-
         
-        // const listItem = document.createElement("li")
         const PrecioTotal = carrito.map(prod => prod.precio * prod.cantidad);
         let final = 0;
         PrecioTotal.forEach(x=>{
