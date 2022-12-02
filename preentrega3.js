@@ -25,7 +25,7 @@
 // };
 
 // contenedorNuevoUsuario.remove();
-
+let carrito = [];
 const menuIngreso = document.getElementById('contenedorNuevoUsuario');
 const saludo = document.getElementById('saludo');
 const ingresoUsuario = document.getElementById('usuario');
@@ -123,6 +123,7 @@ function existeUsuario () {
             saludo.innerText = `Hola ${ingresoUsuario.value}`                 
             console.log('Existe ese Usuario, te dejo entrar en la Tienda!!!')
             tienda();
+            comprobarSiHayCarrito(ingresoUsuario.value);
         }   else {
                 console.log('bad pass')
                 ingresoError.innerText = `Contraseña Incorrecta, sos vos ${z.usuario}? \nO te estan hackeando la cuenta?`;
@@ -281,6 +282,7 @@ function guardarEnLocal() {
 //Tienda Cards
 const scontenedorCards = document.getElementById('contenedorCards');
 
+
 function tienda () {
     sectionTienda.style.display = "";
     // sectionCarrito.style.display = "";
@@ -300,7 +302,6 @@ function tienda () {
     });
     
     //carrito
-    const carrito = [];
     const botonCarrito = document.querySelectorAll('.carr');
     const elCarrito = document.getElementById('carritoDiv');
     const cosasCarrito = document.getElementById('cosasCarrito');
@@ -345,27 +346,7 @@ function tienda () {
           final += x
         })
         tituloCarrito.innerText = `Carrito Precio Total: $${final}`
-
-        // listItem.innerText = `${productoElegido.nombre} - Precio Unitario: $ ${productoElegido.precio} - Precio Total: $`
         
-        
-
-
-
-
-
-
-        // console.log(final);    
-        // console.log(indexCarrito);
-        // console.log(carrito);
-        
-        // let xP = carrito.forEach (x => {
-        //     const ss = `${x.nombre} - Precio Unitario: $ ${x.precio} - Precio Total: $ ${x.precio * x.cantidad}`;
-        //     const listItem = document.createElement("li")
-        //     listItem.innerText = ss;
-        //     ul.append(listItem)
-        //     console.log(ss);
-        // })
         let carritoCaja = ''
         let xP = carrito.forEach (x => {
             // const ss = `${x.nombre} - Precio Unitario: $ ${x.precio} - Cant.: ${x.cantidad} - Precio Total: $ ${x.precio * x.cantidad}`;
@@ -375,19 +356,8 @@ function tienda () {
                 <p class="itemCarritoTitulo"> ${x.nombre} - Precio Unitario: $${x.precio} - Cant.: ${x.cantidad} - Total: ${x.cantidad * x.precio}</p>
                 </div>`;
             const sola = cosasCarrito.innerHTML = carritoCaja;
-            console.log(sola);
-
-            // <button onClick = "eliminarDelCarrito(${producto.id})" class="boton">Eliminar</button>
-
-            // listItem.innerText = ss;
-            // ul.append(listItem)
-            // console.log(ss);
-
-            // <div class="contenido-carrito">
-            //     <h3 class="itemCarritoTitulo"> ${x.nombre} $${x.precio} ${x.cantidad}</h3>
-            //     <p class="itemCarrito">$${x.precio}</p>
-            //     <p class= "itemCarrito">${x.cantidad}</p>                
-            //     </div>`;
+            // console.log(sola);     
+            guardarCarrito();       
         })
 
 
@@ -395,3 +365,28 @@ function tienda () {
 }); 
 };
 
+function comprobarSiHayCarrito(carritoEstas) {
+    const claveStorage = localStorage.getItem(carritoEstas);
+
+    if(claveStorage){
+        console.log('Tiene Carrito, Lo Traigo');
+        carritoDelLocal = deJson(claveStorage);
+        carrito = carritoDelLocal;
+        mostrarCarrito();
+
+    }else{
+        console.log('No Tiene Carrito');
+    }
+};
+
+function guardarCarrito() {
+    // console.log('carrito casa:', carrito);
+    carritoAlLocal = aJson(carrito);
+    localStorage.setItem(ingresoUsuario.value, carritoAlLocal);
+    console.log('Carrito del Usuario Guardado en LocalStorage');
+};
+
+function mostrarCarrito() {
+
+    // tituloCarrito.innerText = `Carrito Precio Total: $${final}`
+};
