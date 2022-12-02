@@ -372,7 +372,7 @@ function tienda () {
             // const listItem = document.createElement("")
             carritoCaja += `
                 <div class="contenido-carrito">
-                <p class="itemCarritoTitulo"> ${x.nombre} $${x.precio} ${x.cantidad}</p>
+                <p class="itemCarritoTitulo"> ${x.nombre} - Precio Unitario: $${x.precio} - Cant.: ${x.cantidad} - Total: ${x.cantidad * x.precio}</p>
                 </div>`;
             const sola = cosasCarrito.innerHTML = carritoCaja;
             console.log(sola);

@@ -127,7 +127,7 @@
 #contenedorCarrito {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     background-color: black;
     position: fixed;
@@ -138,7 +138,10 @@
     text-align: center;
     z-index: 990;
 }
-
+#carritoTitulo {
+    position: fixed;    
+    top: 97px;
+}
 #ul {
     font-size: 15px;
     margin-left: 0;
@@ -151,10 +154,12 @@
 #cosasCarrito {
     margin: 0;
     font-size: 12px !important;
-    color: red;
+    color: rgb(21, 216, 135);
+    text-align: left;
 
 }
 
 #cosasCarrito p {
     margin: 0;
+    font-size: 19px;
 }
