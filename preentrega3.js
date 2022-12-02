@@ -122,8 +122,7 @@ function existeUsuario () {
             menuIngreso.style.display = "none";
             saludo.innerText = `Hola ${ingresoUsuario.value}`                 
             console.log('Existe ese Usuario, te dejo entrar en la Tienda!!!')
-            tienda();
-            comprobarSiHayCarrito(ingresoUsuario.value);
+            tienda();            
         }   else {
                 console.log('bad pass')
                 ingresoError.innerText = `Contraseña Incorrecta, sos vos ${z.usuario}? \nO te estan hackeando la cuenta?`;
@@ -210,26 +209,7 @@ function comprobarClienteDuplicado () {
         // debugger
         setTimeout(function(){ingresoError.innerText = ''; }, 2000);
     };
-
-    // xxxx.forEach(i => {
-    //     // console.log(i);
-    //     if (i.usuario === ingresoUsuario.value) {
-    //         console.log('Ya hay un Usuario con ese nombre');
-    //         ingresoError.style.display = '';
-    //         ingresoError.innerText = 'Usuario ya Existente, Modificar!!!';
-    //         debugger
-    //         setTimeout(function(){ingresoError.style.display = "none"; }, 3000);
-
-    //     }   else {
-    //             console.log('Usuario No Duplicado, Se Agrega');
-    //             // guardarClienteEnArray();
-    //             actualizarArrayConLocal();
-    //             guardarEnLocal();
-    //             // console.log(xxxx)
-    //     };
-    
-    // });
-    
+   
 };
 
 function actualizarArrayConLocal() {
@@ -251,14 +231,6 @@ function hayCliente() {
     }
 
 };
-// botonPrueba.onclick = () => {
-//    let pruebill = JSON.parse(localStorage.getItem('listaClientes'));
-//    console.log(pruebill[0].usuario);
-//    console.log(ingresoUsuario.value);
-//    console.log(input1);
-    // hayCliente();
-    // console.log(productos)
-// };
 
 function guardarClienteEnArray () {
     console.log('guardar cliente en el array')
@@ -267,24 +239,20 @@ function guardarClienteEnArray () {
 };
 
 function guardarEnLocal() {
-    // console.log('primera vez')
-    // if ()
-    // console.log(clientes)
-    // if ( )
     localStorage.setItem('listaClientes', aJson(clientes));
     console.log('guardado en el local Storage')
     window.location.reload();
-    // console.log(clientes)
 }
 
-// console.log(clientes);
-
 //Tienda Cards
-const scontenedorCards = document.getElementById('contenedorCards');
+const contenedorCards = document.getElementById('contenedorCards');
 
 
 function tienda () {
-    sectionTienda.style.display = "";
+    sectionTienda.style.display = ""; //muestra el contenedor de productos
+
+    comprobarSiHayCarrito(ingresoUsuario.value);
+
     // sectionCarrito.style.display = "";
     
 
@@ -299,67 +267,44 @@ function tienda () {
         </div>
         </div>    
         `
-    });
-    
-    //carrito
+    }); 
+  
     const botonCarrito = document.querySelectorAll('.carr');
     const elCarrito = document.getElementById('carritoDiv');
-    const cosasCarrito = document.getElementById('cosasCarrito');
+    const cosasCarrito = document.getElementById('cosasCarrito');    
 
-    // const botonCarrito = document.getElementsByClassName("carr");
-    // console.log(botonCarrito)
-    
-    // console.log(carrito)
-    botonCarrito.forEach(pum =>{
+    botonCarrito.forEach(pum =>{    
         pum.onclick = () => {
-            if (carrito === '') {
-                sectionCarrito.style.display = "none";
-            }   else {
-                sectionCarrito.style.display = "";
-            }
+            // if (carrito === '') {
+            //     sectionCarrito.style.display = "none";
+            // }   else {
+            //     mostrarCarrito();
+            //     // sectionCarrito.style.display = "";
+            // }
             const productoElegido = productos.find(x => x.id === parseInt(pum.id));
-            
             const ProductoCarrito = {...productoElegido, cantidad:1};
-            
             const indexCarrito = carrito.findIndex(prod=>prod.id === ProductoCarrito.id);
-
-        // console.log(productoElegido);
-        // console.log(ProductoCarrito);
-        console.log(carrito);
+        
 
         if (indexCarrito === -1){
-          carrito.push(ProductoCarrito)
-        } else {
+            console.log(`indexCarrito: ${indexCarrito}`);
+            carrito.push(ProductoCarrito)
+        }   else {
             carrito[indexCarrito].cantidad += 1;
+        };
+            guardarCarrito();
+            mostrarCarrito();
+
         }
-        
-        const PrecioTotal = carrito.map(prod => prod.precio * prod.cantidad);
-        let final = 0;
-        PrecioTotal.forEach(x=>{
-          final += x
-        })
-        tituloCarrito.innerText = `Carrito Precio Total: $${final}`
-        
-        let carritoCaja = ''
-        let xP = carrito.forEach (x => {
-            // const ss = `${x.nombre} - Precio Unitario: $ ${x.precio} - Cant.: ${x.cantidad} - Precio Total: $ ${x.precio * x.cantidad}`;
-            // const listItem = document.createElement("")
-            carritoCaja += `
-                <div class="contenido-carrito">
-                <p class="itemCarritoTitulo"> ${x.nombre} - Precio Unitario: $${x.precio} - Cant.: ${x.cantidad} - Total: ${x.cantidad * x.precio}</p>
-                </div>`;
-            const sola = cosasCarrito.innerHTML = carritoCaja;
-            // console.log(sola);     
-            guardarCarrito();       
-        })
+    });
 
 
-    }
-}); 
-};
+
+
+}; 
 
 function comprobarSiHayCarrito(carritoEstas) {
-    const claveStorage = localStorage.getItem(carritoEstas);
+const claveStorage = localStorage.getItem(carritoEstas);
 
     if(claveStorage){
         console.log('Tiene Carrito, Lo Traigo');
@@ -372,8 +317,7 @@ function comprobarSiHayCarrito(carritoEstas) {
     }
 };
 
-function guardarCarrito() {
-    // console.log('carrito casa:', carrito);
+function guardarCarrito() {    
     carritoAlLocal = aJson(carrito);
     localStorage.setItem(ingresoUsuario.value, carritoAlLocal);
     console.log('Carrito del Usuario Guardado en LocalStorage');
@@ -381,5 +325,23 @@ function guardarCarrito() {
 
 function mostrarCarrito() {
 
-    // tituloCarrito.innerText = `Carrito Precio Total: $${final}`
-};
+    console.log(carrito)
+    sectionCarrito.style.display = "" //muestra contenedor Carrito si hay un carrito Guardado
+
+    const PrecioTotal = carrito.map(prod => prod.precio * prod.cantidad);
+        let final = 0;
+        PrecioTotal.forEach(x=>{
+          final += x
+        })
+        tituloCarrito.innerText = `Carrito Precio Total: $${final}`
+        
+        let carritoCaja = ''
+        let xP = carrito.forEach (x => {            
+            carritoCaja += `
+                <div class="contenido-carrito">
+                <p class="itemCarritoTitulo"> ${x.nombre} - Precio Unitario: $${x.precio} - Cant.: ${x.cantidad} - Total: ${x.cantidad * x.precio}</p>
+                </div>`;
+            const sola = cosasCarrito.innerHTML = carritoCaja;    
+        })
+};    
+
