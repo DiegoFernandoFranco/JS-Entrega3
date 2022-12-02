@@ -134,15 +134,27 @@
     top: 98px;
     width: 100%;
     color: white;
-    height: 100px;
+    height: 150px;
     text-align: center;
+    z-index: 990;
 }
 
 #ul {
+    font-size: 15px;
     margin-left: 0;
     padding: 0;
     text-align: center;
     list-style-type: none;
     text-decoration: none;
     
+}
+#cosasCarrito {
+    margin: 0;
+    font-size: 12px !important;
+    color: red;
+
+}
+
+#cosasCarrito p {
+    margin: 0;
 }

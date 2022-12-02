@@ -63,9 +63,9 @@ class Producto {
 };
 const productos = [];
 
-productos.push(new Producto(1, 'Ojotas Verdes', 1000, 50, "./img/ojotas-verdes.png"));
-productos.push(new Producto(2, 'Ojotas Rojo Ferrari', 1000, 50, "./img/ojotas-rojo-ferrari.png"));
-productos.push(new Producto(3, 'Ojotas Celestes', 1000, 50, "./img/ojotas-celestes.png"));
+productos.push(new Producto(1, 'Ojotas Verdes', 700, 50, "./img/ojotas-verdes.png"));
+productos.push(new Producto(2, 'Ojotas Rojo Ferrari', 685, 50, "./img/ojotas-rojo-ferrari.png"));
+productos.push(new Producto(3, 'Ojotas Celestes', 932, 50, "./img/ojotas-celestes.png"));
 
 // botonPrueba.onclick = () => {
 //     console.log(productos);
@@ -298,22 +298,34 @@ function tienda () {
         </div>    
         `
     });
-
+    
     //carrito
-const carrito = [];
-const botonCarrito = document.querySelectorAll('.carr');
-const elCarrito = document.getElementById('carritoDiv');
-// const botonCarrito = document.getElementsByClassName("carr");
-// console.log(botonCarrito)
+    const carrito = [];
+    const botonCarrito = document.querySelectorAll('.carr');
+    const elCarrito = document.getElementById('carritoDiv');
+    const cosasCarrito = document.getElementById('cosasCarrito');
 
-// console.log(carrito)
-botonCarrito.forEach(pum =>{
-    pum.onclick = () => {
-        const productoElegido = productos.find(x => x.id === parseInt(pum.id));
+    // const botonCarrito = document.getElementsByClassName("carr");
+    // console.log(botonCarrito)
+    
+    // console.log(carrito)
+    botonCarrito.forEach(pum =>{
+        pum.onclick = () => {
+            if (carrito === '') {
+                sectionCarrito.style.display = "none";
+            }   else {
+                sectionCarrito.style.display = "";
+            }
+            const productoElegido = productos.find(x => x.id === parseInt(pum.id));
+            
+            const ProductoCarrito = {...productoElegido, cantidad:1};
+            
+            const indexCarrito = carrito.findIndex(prod=>prod.id === ProductoCarrito.id);
 
-        const ProductoCarrito = {...productoElegido, cantidad:1};
+        // console.log(productoElegido);
+        // console.log(ProductoCarrito);
+        console.log(carrito);
 
-        const indexCarrito = carrito.findIndex(prod=>prod.id === ProductoCarrito.id);
         if (indexCarrito === -1){
           carrito.push(ProductoCarrito)
         } else {
@@ -333,18 +345,50 @@ botonCarrito.forEach(pum =>{
           final += x
         })
         tituloCarrito.innerText = `Carrito Precio Total: $${final}`
-        listItem.innerText = `${productoElegido.nombre} - Precio: $ ${productoElegido.precio}`
-        ul.append(listItem)
+
+        // listItem.innerText = `${productoElegido.nombre} - Precio Unitario: $ ${productoElegido.precio} - Precio Total: $`
+        
+        
+
+
+
+
+
 
         // console.log(final);    
         // console.log(indexCarrito);
         // console.log(carrito);
+        
+        // let xP = carrito.forEach (x => {
+        //     const ss = `${x.nombre} - Precio Unitario: $ ${x.precio} - Precio Total: $ ${x.precio * x.cantidad}`;
+        //     const listItem = document.createElement("li")
+        //     listItem.innerText = ss;
+        //     ul.append(listItem)
+        //     console.log(ss);
+        // })
+        let carritoCaja = ''
+        let xP = carrito.forEach (x => {
+            // const ss = `${x.nombre} - Precio Unitario: $ ${x.precio} - Cant.: ${x.cantidad} - Precio Total: $ ${x.precio * x.cantidad}`;
+            // const listItem = document.createElement("")
+            carritoCaja += `
+                <div class="contenido-carrito">
+                <p class="itemCarritoTitulo"> ${x.nombre} $${x.precio} ${x.cantidad}</p>
+                </div>`;
+            const sola = cosasCarrito.innerHTML = carritoCaja;
+            console.log(sola);
 
-        if (carrito === '') {
-            sectionCarrito.style.display = "none";
-        }   else {
-            sectionCarrito.style.display = "";
-        }
+            // <button onClick = "eliminarDelCarrito(${producto.id})" class="boton">Eliminar</button>
+
+            // listItem.innerText = ss;
+            // ul.append(listItem)
+            // console.log(ss);
+
+            // <div class="contenido-carrito">
+            //     <h3 class="itemCarritoTitulo"> ${x.nombre} $${x.precio} ${x.cantidad}</h3>
+            //     <p class="itemCarrito">$${x.precio}</p>
+            //     <p class= "itemCarrito">${x.cantidad}</p>                
+            //     </div>`;
+        })
 
 
     }
