@@ -1,30 +1,4 @@
 
-
-// const cabezon = document.getElementById('navbar');
-
-// cabezon.onclick = () => console.log('Hola');
-
-// const ingresoNombre = document.getElementById('nombre');
-// const ingresoApellido = document.getElementById('apellido');
-// // ingresoNombre.oninput = (i) => console.log(i)
-
-// const boton = document.getElementById('boton');
-// const saludo = document.getElementById('saludo');
-
-// const infoUsuario = {}
-
-// boton.onclick = () => {
-//     console.log(ingresoNombre.value);
-//     console.log(ingresoApellido.value);
-    
-//     nombreYApellido = `${ingresoNombre.value} ${ingresoApellido.value}`
-//     // const saludoMod = 
-//     saludo.innerText = `Hola ${nombreYApellido}`
-//     ingresoNombre.value = '';
-//     ingresoApellido.value = '';
-// };
-
-// contenedorNuevoUsuario.remove();
 let carrito = [];
 const menuIngreso = document.getElementById('contenedorNuevoUsuario');
 const saludo = document.getElementById('saludo');
@@ -67,13 +41,6 @@ productos.push(new Producto(1, 'Ojotas Verdes', 700, 50, "./img/ojotas-verdes.pn
 productos.push(new Producto(2, 'Ojotas Rojo Ferrari', 685, 50, "./img/ojotas-rojo-ferrari.png"));
 productos.push(new Producto(3, 'Ojotas Celestes', 932, 50, "./img/ojotas-celestes.png"));
 
-// botonPrueba.onclick = () => {
-//     console.log(productos);
-// };
-
-
-
-
 if (listaClientesExiste) {
     clientes = listaClientesExiste;  
     console.log('hay clientes');
@@ -85,11 +52,6 @@ if (listaClientesExiste) {
 };
 
 
-// console.log(input1);
-
-
-
-// const contadorUsuarios = localStorage.setItem('contador', 0)
 
 const objUsuarios = {};
 
@@ -253,9 +215,6 @@ function tienda () {
 
     comprobarSiHayCarrito(ingresoUsuario.value);
 
-    // sectionCarrito.style.display = "";
-    
-
     productos.forEach(producto => {
         contenedorCards.innerHTML += `    
         <div id="div${producto.id}" class="card cardsProductos" > 
@@ -275,12 +234,7 @@ function tienda () {
 
     botonCarrito.forEach(pum =>{    
         pum.onclick = () => {
-            // if (carrito === '') {
-            //     sectionCarrito.style.display = "none";
-            // }   else {
-            //     mostrarCarrito();
-            //     // sectionCarrito.style.display = "";
-            // }
+            
             const productoElegido = productos.find(x => x.id === parseInt(pum.id));
             const ProductoCarrito = {...productoElegido, cantidad:1};
             const indexCarrito = carrito.findIndex(prod=>prod.id === ProductoCarrito.id);
@@ -289,17 +243,22 @@ function tienda () {
         if (indexCarrito === -1){
             console.log(`indexCarrito: ${indexCarrito}`);
             carrito.push(ProductoCarrito)
+            Toastify({
+                text: 'Primer Producto Agregado al Carrito'
+            }).showToast()
+
         }   else {
             carrito[indexCarrito].cantidad += 1;
+            Toastify({
+                text: 'Sumaste Producto al Carrito'
+            }).showToast()
         };
+            
             guardarCarrito();
             mostrarCarrito();
 
         }
     });
-
-
-
 
 }; 
 
@@ -332,16 +291,104 @@ function mostrarCarrito() {
         let final = 0;
         PrecioTotal.forEach(x=>{
           final += x
+
         })
-        tituloCarrito.innerText = `Carrito Precio Total: $${final}`
+                
+        fetch("https://criptoya.com/api/dolar")
+        .then(response => response.json())
+        .then(({blue}) => {        
+        let azulcito = blue;
+
+        let dolaresFinal = final / azulcito
         
-        let carritoCaja = ''
-        let xP = carrito.forEach (x => {            
+        tituloCarrito.innerText = `Carrito Precio Total en Pesos Arg: $${final} U$S: ${dolaresFinal.toFixed(2)}`
+        }) 
+
+
+        let carritoCaja = '';
+        
+        let xP = carrito.forEach(x => {
             carritoCaja += `
-                <div class="contenido-carrito">
-                <p class="itemCarritoTitulo"> ${x.nombre} - Precio Unitario: $${x.precio} - Cant.: ${x.cantidad} - Total: ${x.cantidad * x.precio}</p>
-                </div>`;
-            const sola = cosasCarrito.innerHTML = carritoCaja;    
+            <div class="contenido-carrito">
+            <p class="itemCarritoTitulo">${x.nombre} </p>
+            <p class="itemCarritoTitulo">Precio Uni: $${x.precio}</p>
+            <p class= "itemCarritoTitulo">Cant.: ${x.cantidad}</p>
+            <p class= "itemCarritoTitulo">Total: $${x.cantidad * x.precio}</p>
+            <button id=${x.id} class="botonEliminarItem">Quitar</button>
+            </div>`;
+
+            const sola = cosasCarrito.innerHTML = carritoCaja;
+
+            const botonEliminarItem = document.querySelectorAll('.botonEliminarItem');
+            const botonEliminar = document.getElementById(x.id);
+            
+            botonEliminarItem.forEach(jua => {
+                
+                jua.onclick = () => {
+                    Toastify({
+                        style: {
+                            background: "red",
+                        },
+                        text: 'Quitaste un Producto al Carrito :('
+                    }).showToast()
+                    let busquedaCarrito2 = carrito.find(item => item.id == jua.id);
+                busquedaCarrito2.cantidad -= 1;
+                guardarCarrito();
+                mostrarCarrito();
+
+                }
+            })
+
+        });
+
+        const divProductos = document.getElementById("proximamente")
+
+        const consultarProductos = async () => {
+            const response = await fetch('./json/productos.json')
+            const productos = await response.json()
+            return productos 
+        }
+        
+        consultarProductos().then(productos => {
+            productos.forEach((producto) => {
+                divProductos.innerHTML = `
+                <div class="card cardProducto">
+                    <h3>PROXIMAMENTE</h3>   
+                    <img src="${producto.img}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 class="card-title">${producto.nombre}</h4>                           
+                            <p class="card-text">Estado: ${producto.estado}</p>                            
+                        </div>
+                </div>                
+                `
+            });
         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 };    
 
